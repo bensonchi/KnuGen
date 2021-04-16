@@ -1,29 +1,5 @@
 import pyodbc
 
-# Some other example server values are
-# server = 'localhost\sqlexpress' # for a named instance
-# server = 'myserver,port' # to specify an alternate port
-#
-# cnxn = pyodbc.connect(
-#     "Driver={SQL Server Native Client 11.0};"
-#     "Server=CoT-CIS3365-09.cougarnet.uh.edu;"
-#     "Port=1433;"
-#     "Database=SoundboxDB;"
-#     "Trusted_Connection=no;"
-#     "UID=bchi2;"
-#     "PWD=Qwer123$;"
-# )
-# cursor = cnxn.cursor()
-#
-# # Sample select query
-# cursor.execute("SELECT * FROM Course;")
-# row = cursor.fetchone()
-# while row:
-#     print(str(row[0]) + ' ' + str(row[1]) + ' ' + str(row[2]))
-#
-#     row = cursor.fetchone()
-#
-
 class Database:
     def __init__(self):
         self.conn = pyodbc.connect(
@@ -34,6 +10,7 @@ class Database:
             "Trusted_Connection=no;"
             "UID=bchi2;"
             "PWD=Qwer123$;"
+
         )
         self.cursor = self.conn.cursor()
         # self.cur.execute(
@@ -43,8 +20,8 @@ class Database:
     def fetch(self):
         self.cursor.execute("SELECT * FROM Course")
         rows = self.cursor.fetchall()
-        print(rows[0])
-        print(type(rows[0]))
+        for row in rows:
+            print(row)
         return rows
 
     def insert(self, employeeid, studentid, genreid, coursepriceid, coursenumberid, course_name, course_date,
@@ -69,3 +46,7 @@ class Database:
 
     def __del__(self):
         self.conn.close()
+
+
+db = Database()
+db.fetch()
